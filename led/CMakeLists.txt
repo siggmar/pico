@@ -4,7 +4,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Name des Projekts
 
 # Pico SDK einbinden
-include(/home/jay/dev/pico/pico-sdk/external/pico_sdk_import.cmake)
+include(~/dev/pico/pico-sdk/external/pico_sdk_import.cmake)
 
 project(led_project)
 
