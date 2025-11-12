@@ -1,5 +1,5 @@
 # Random Pico Projects
 
-** Used some modules like the TTP223 ** 
+__Used some modules like the TTP223__
 
 thats it
