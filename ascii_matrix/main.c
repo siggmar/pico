@@ -1,6 +1,7 @@
 #include "board.pio.h"
 #include "hardware/pio.h"
 #include "pico/stdlib.h"
+#include <math.h>
 #include <stdio.h>
 
 #define LED_PIN 0
@@ -25,6 +26,17 @@ void lights_off() {
     }
 }
 
+void render(int buffer[NUM_PIXELS]) {
+    for (int i = 0; i < NUM_PIXELS; i++) {
+
+        // simulate rows, only works on square matrix
+        if (i % (int)sqrt(NUM_PIXELS)) {
+            printf("\n");
+        }
+        printf("[%c]", buffer[i]);
+    }
+}
+
 int main() {
     stdio_init_all();
 
@@ -37,10 +49,18 @@ int main() {
 
     int t = 0;
 
+    int count = 0;
+    int buffer[NUM_PIXELS];
+
     while (true) {
         int c = getchar_timeout_us(0);
-        if (c != PICO_ERROR_TIMEOUT) {
-            putchar(c); // Echo
+        if (c == PICO_ERROR_TIMEOUT) {
+            continue;
+        }
+        buffer[count++] = c;
+        if (count == NUM_PIXELS) {
+            render(buffer);
+            count = 0;
         }
     }
 }
