@@ -20,7 +20,7 @@ uint8_t scale(float brightness, uint8_t color) {
     return (uint8_t)(brightness * color);
 }
 
-void lights_off() {
+void lights_off(void) {
     for (int i = 0; i < NUM_PIXELS; i++) {
         put_pixel(urgb_u32(0, 0, 0));
     }
@@ -29,15 +29,15 @@ void lights_off() {
 void render(int buffer[NUM_PIXELS]) {
     for (int i = 0; i < NUM_PIXELS; i++) {
 
+        printf("[%c]", buffer[i]);
         // simulate rows, only works on square matrix
-        if (i % (int)sqrt(NUM_PIXELS)) {
+        if ((i + 1) % 8 == 0) {
             printf("\n");
         }
-        printf("[%c]", buffer[i]);
     }
 }
 
-int main() {
+int main(void) {
     stdio_init_all();
 
     PIO pio = pio0;
@@ -53,10 +53,7 @@ int main() {
     int buffer[NUM_PIXELS];
 
     while (true) {
-        int c = getchar_timeout_us(0);
-        if (c == PICO_ERROR_TIMEOUT) {
-            continue;
-        }
+        int c = getchar();
         buffer[count++] = c;
         if (count == NUM_PIXELS) {
             render(buffer);
